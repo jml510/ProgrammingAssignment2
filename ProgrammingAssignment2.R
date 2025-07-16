@@ -8,17 +8,24 @@ makeCacheInverse <- function(x = matrix()) {
 ## Getting the values for the matrix
   get <- function()x
 ## Setting and Getting the values for the inverse
-  setInverse <- function(inverse) inv <<- inverse
-  getInverse <- function() inv
+  setInverse <- function(inverse) z <<- inverse
+  getInverse <- function() z
   list(set = set, get = get,
        setinverse = setinverse, 
        getinverse = getinverse)
 }
 
 cacheSolve <- function(x...) {
+## Checking to see if data is already calculated
   z <- x$getinverse()
   if(!is.null(z)) {
     message("Getting Cached Data")
-    return(inv)
+    return(z)
   }
+## If not already calculated, calculates the inverse and saves it as "m"
+  data <- x$get()
+  z <- solve(data...)
+  x$setinverse(z)
+  z
 }
+
